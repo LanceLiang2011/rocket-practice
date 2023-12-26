@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -12,10 +11,12 @@ public class PlayerMovement : MonoBehaviour
     private float rotateSpeed = 100f;
 
     Rigidbody rb;
+    AudioSource audioSource;
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -49,9 +50,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void Rotate(int direction)
     {
-        rb.freezeRotation = true;
+        // rb.freezeRotation = true;
         transform.Rotate(direction * rotateSpeed * Time.deltaTime * Vector3.forward);
-        rb.freezeRotation = false;
+        // rb.freezeRotation = false;
     }
 
     private void ProcessThrust()
@@ -59,6 +60,15 @@ public class PlayerMovement : MonoBehaviour
         if(Input.GetKey(KeyCode.Space))
         {
             BoostRocket();
+            if(!audioSource.isPlaying)
+            {
+                audioSource.Play();
+            }
+
+        }
+        else
+        {
+            audioSource.Stop();
         }
     }
 
