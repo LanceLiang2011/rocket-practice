@@ -24,7 +24,7 @@ public class CollisionHandler : MonoBehaviour
 
     private void HandleFinishCollision()
     {
-        Debug.Log("Finish");
+        LoadNextLevel();
     }
 
     private void HandleFriendlyCollision()
@@ -34,7 +34,21 @@ public class CollisionHandler : MonoBehaviour
 
     private void HandleDefaultCollision()
     {
-        SceneManager.LoadScene(0);
+        ReloadLevel();
+    }
+
+    private static void LoadNextLevel()
+    {
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        Debug.Log(SceneManager.sceneCount);
+        int nextSceneIndex = currentSceneIndex + 1 >= SceneManager.sceneCountInBuildSettings ? 0 : currentSceneIndex + 1;
+        SceneManager.LoadScene(nextSceneIndex);
+    }
+
+    private static void ReloadLevel()
+    {
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        SceneManager.LoadScene(currentSceneIndex);
     }
 }
 
