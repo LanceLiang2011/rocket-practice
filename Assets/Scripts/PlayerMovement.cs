@@ -9,6 +9,15 @@ public class PlayerMovement : MonoBehaviour
     private float thrustForce = 1500f;
     [SerializeField]
     private float rotateSpeed = 100f;
+    [SerializeField]
+    private AudioClip engineSound;
+
+    [SerializeField]
+    private ParticleSystem engineParticle;
+    [SerializeField]
+    private ParticleSystem rigthParticle;
+    [SerializeField]
+    private ParticleSystem leftParticle;
 
     Rigidbody rb;
     AudioSource audioSource;
@@ -36,16 +45,48 @@ public class PlayerMovement : MonoBehaviour
         {
             RotateRight();
         }
+        if(!Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.RightArrow))
+        {
+            ClearRightRotation();
+        }
+        if(!Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.LeftArrow))
+        {
+            ClearLeftRotation();
+        }
+    }
+
+    private void ClearLeftRotation()
+    {
+        if(leftParticle.isPlaying)
+        {
+            leftParticle.Stop();
+        }
+    }
+
+    private void ClearRightRotation()
+    {
+        if(rigthParticle.isPlaying)
+        {
+            rigthParticle.Stop();
+        }
     }
 
     private void RotateRight()
     {
         Rotate(-1);
+        if(!rigthParticle.isPlaying)
+        {
+            rigthParticle.Play();
+        }
     }
 
     private void RotateLeft()
     {
         Rotate(1);
+        if(!leftParticle.isPlaying)
+        {
+            leftParticle.Play();
+        }
     }
 
     private void Rotate(int direction)
@@ -62,13 +103,18 @@ public class PlayerMovement : MonoBehaviour
             BoostRocket();
             if(!audioSource.isPlaying)
             {
-                audioSource.Play();
+                audioSource.PlayOneShot(engineSound);
+            }
+            if(!engineParticle.isPlaying)
+            {
+                engineParticle.Play();
             }
 
         }
         else
         {
             audioSource.Stop();
+            engineParticle.Stop();
         }
     }
 
