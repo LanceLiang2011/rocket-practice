@@ -19,6 +19,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private ParticleSystem leftParticle;
 
+    [SerializeField]
+    private Light headligh;
+
     Rigidbody rb;
     AudioSource audioSource;
     // Start is called before the first frame update
@@ -37,22 +40,35 @@ public class PlayerMovement : MonoBehaviour
 
     private void ProcessRotation()
     {
-        if(Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+        bool userPushLeft = Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow);
+        bool userPushRight = Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow);
+        bool userPushZDown = Input.GetKeyDown(KeyCode.Z);
+        if(userPushLeft)
         {
             RotateLeft();
         }
-        if(Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+        if(userPushRight)
         {
             RotateRight();
         }
-        if(!Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.RightArrow))
+        if(!userPushRight)
         {
             ClearRightRotation();
         }
-        if(!Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.LeftArrow))
+        if(!userPushLeft)
         {
             ClearLeftRotation();
         }
+
+        if(userPushZDown)
+        {
+            ToggleHeadLight();
+        }
+    }
+
+    private void ToggleHeadLight()
+    {
+        headligh.enabled = !headligh.enabled;
     }
 
     private void ClearLeftRotation()
