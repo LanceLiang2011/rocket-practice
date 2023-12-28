@@ -556,7 +556,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementVector: {x: 10, y: 0, z: 0}
-  period: 10
+  period: 0
 --- !u!1 &1899824311
 GameObject:
   m_ObjectHideFlags: 3

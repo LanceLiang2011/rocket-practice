@@ -23,6 +23,7 @@ public class Oscillator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (period == 0) return;
         float cycles = Time.time / period;
         float amplitude = Mathf.Sin(cycles * TAU);
         Vector3 offset = movementVector * amplitude;
